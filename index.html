@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Êtes-vous prêt à arrêter de coder ?</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+
+    <!-- Highlight.js Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom Catppuccin Theme -->
+    <link rel="stylesheet" href="css/catppuccin.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ============================================ -->
+            <!-- TITRE -->
+            <!-- ============================================ -->
+            <section data-background-color="#1e1e2e">
+                <h1 class="title-gradient">Êtes-vous prêt à<br><span class="highlight-mauve">arrêter de coder</span> ?</h1>
+                <p class="subtitle">Spec-Driven Development avec les agents IA</p>
+                <div class="author-info">
+                    <p>SDD Conference 2025</p>
+                </div>
+                <aside class="notes">
+                    Introduction provocatrice pour capter l'attention.
+                    Le titre n'est pas une provocation vide - c'est une vraie question sur l'évolution de notre métier.
+                </aside>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 1: LE PROBLÈME (5 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>Le problème</h2>
+                    <p class="section-subtitle">Vibe coding et ses limites</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Le "Vibe Coding"</h3>
+                    <blockquote class="twitter-style">
+                        "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."
+                        <footer>— Andrej Karpathy, Feb 2025</footer>
+                    </blockquote>
+                    <aside class="notes">
+                        Karpathy a popularisé ce terme. L'idée: on décrit ce qu'on veut, l'IA code.
+                        Ça marche... jusqu'à un certain point.
+                    </aside>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Comment ça commence</h3>
+                    <pre><code class="language-plaintext" data-trim>
+Prompt: "Crée-moi un dashboard avec des graphiques
+        et une sidebar pour naviguer"
+                    </code></pre>
+                    <div class="fragment">
+                        <p class="result-good">✨ Résultat: Impressionnant en 30 secondes!</p>
+                    </div>
+                    <aside class="notes">
+                        Démo live si possible - montrer la rapidité initiale.
+                        L'effet "wow" est réel.
+                    </aside>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Comment ça finit</h3>
+                    <div class="problem-list">
+                        <p class="fragment fade-in"><span class="icon-red">❌</span> Itération 5: "Ajoute des filtres"</p>
+                        <p class="fragment fade-in"><span class="icon-red">❌</span> Itération 12: "Le filtre casse le graphique"</p>
+                        <p class="fragment fade-in"><span class="icon-red">❌</span> Itération 23: "Reviens à la version d'avant"</p>
+                        <p class="fragment fade-in"><span class="icon-red">❌</span> Itération 47: "Plus rien ne marche"</p>
+                    </div>
+                    <p class="fragment highlight-red">🔥 Le contexte est perdu, le code est un patchwork</p>
+                    <aside class="notes">
+                        C'est le pattern classique. Sans structure, chaque itération dégrade la qualité.
+                        L'agent n'a pas de vision globale, il patch.
+                    </aside>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Le vrai problème</h3>
+                    <div class="two-columns">
+                        <div class="column">
+                            <h4 class="highlight-red">Sans spec</h4>
+                            <ul>
+                                <li>Contexte perdu entre itérations</li>
+                                <li>Pas de critères de succès</li>
+                                <li>Régression invisible</li>
+                                <li>Impossible à maintenir</li>
+                            </ul>
+                        </div>
+                        <div class="column fragment">
+                            <h4 class="highlight-green">Avec spec</h4>
+                            <ul>
+                                <li>Contexte préservé</li>
+                                <li>Acceptance criteria clairs</li>
+                                <li>Détection des régressions</li>
+                                <li>Documentation vivante</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        La spec n'est pas de la bureaucratie - c'est de la mémoire persistante pour l'agent.
+                    </aside>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 2: LANCEMENT DEMO (5 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>Demo: Deux approches</h2>
+                    <p class="section-subtitle">Même feature, méthodes différentes</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>La feature à implémenter</h3>
+                    <div class="feature-card">
+                        <h4>🎯 Filtrage avancé des tâches</h4>
+                        <p>Sur <a href="https://ai-board-three.vercel.app/" target="_blank">ai-board</a></p>
+                        <ul>
+                            <li>Filtrer par statut (todo, in-progress, done)</li>
+                            <li>Filtrer par priorité</li>
+                            <li>Recherche textuelle</li>
+                            <li>Combinaison de filtres</li>
+                        </ul>
+                    </div>
+                    <aside class="notes">
+                        Feature réaliste, pas triviale, bon terrain de comparaison.
+                    </aside>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Approche 1: Vibe Coding</h3>
+                    <pre><code class="language-plaintext" data-trim data-line-numbers>
+Prompt envoyé à l'agent:
+
+"Ajoute des filtres sur le board.
+Je veux pouvoir filtrer par statut,
+priorité et faire une recherche texte.
+Les filtres doivent se combiner."
+                    </code></pre>
+                    <p class="fragment"><span class="tag tag-yellow">⏱️ Lancement en parallèle...</span></p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Approche 2: Spec-Driven</h3>
+                    <pre><code class="language-yaml" data-trim data-line-numbers="1-5|7-15|17-25">
+feature: task-filtering
+version: 1.0.0
+status: draft
+
+description: |
+  Système de filtrage des tâches sur le board
+
+acceptance_criteria:
+  - id: AC-01
+    scenario: Filtrage par statut
+    given: L'utilisateur est sur le board
+    when: Il sélectionne "In Progress" dans le filtre statut
+    then: Seules les tâches "In Progress" sont affichées
+    and: Le compteur de tâches est mis à jour
+
+  - id: AC-02
+    scenario: Combinaison de filtres
+    given: L'utilisateur a filtré par statut "Todo"
+    when: Il ajoute un filtre priorité "High"
+    then: Seules les tâches Todo ET High sont affichées
+    and: Les filtres actifs sont visibles
+                    </code></pre>
+                    <p class="fragment"><span class="tag tag-green">⏱️ Lancement en parallèle...</span></p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>🚀 Génération lancée!</h3>
+                    <div class="two-columns">
+                        <div class="column">
+                            <div class="status-card status-running">
+                                <h4>Vibe Coding</h4>
+                                <p>🔄 En cours...</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="status-card status-running">
+                                <h4>SDD</h4>
+                                <p>🔄 En cours...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fragment">Nous reviendrons aux résultats plus tard...</p>
+                    <aside class="notes">
+                        Laisser tourner en background. On reviendra voir les résultats.
+                    </aside>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 3: SDD CONCEPTS (10 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>SDD: Les concepts</h2>
+                    <p class="section-subtitle">Spec-Driven Development</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Qu'est-ce qu'une Spec?</h3>
+                    <blockquote class="definition">
+                        "A structured, behavior-oriented artifact written in natural language that expresses software functionality and serves as guidance to AI coding agents"
+                    </blockquote>
+                    <div class="fragment">
+                        <p>Ce n'est <strong>PAS</strong>:</p>
+                        <ul class="negative-list">
+                            <li>Une documentation technique</li>
+                            <li>Un diagramme UML</li>
+                            <li>Un ticket Jira</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Les 3 niveaux de SDD</h3>
+                    <div class="levels-container">
+                        <div class="level-card fragment" data-fragment-index="1">
+                            <div class="level-header level-1">
+                                <span class="level-number">1</span>
+                                <h4>Spec-First</h4>
+                            </div>
+                            <p>Specs précèdent le code</p>
+                            <p class="level-detail">Puis souvent abandonnées...</p>
+                        </div>
+                        <div class="level-card fragment" data-fragment-index="2">
+                            <div class="level-header level-2">
+                                <span class="level-number">2</span>
+                                <h4>Spec-Anchored</h4>
+                            </div>
+                            <p>Specs persistent et évoluent</p>
+                            <p class="level-detail">Avec la feature</p>
+                        </div>
+                        <div class="level-card fragment" data-fragment-index="3">
+                            <div class="level-header level-3">
+                                <span class="level-number">3</span>
+                                <h4>Spec-as-Source</h4>
+                            </div>
+                            <p>La spec EST l'artefact principal</p>
+                            <p class="level-detail">Le code est généré</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Niveau 1: Spec-First</h3>
+                    <div class="workflow-diagram">
+                        <div class="workflow-step">📝 Spec</div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step">🤖 Agent</div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step">💻 Code</div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step fade-out">📝 Spec ignorée</div>
+                    </div>
+                    <p class="fragment">⚠️ Mieux que rien, mais la spec devient obsolète</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Niveau 2: Spec-Anchored</h3>
+                    <div class="workflow-diagram">
+                        <div class="workflow-step">📝 Spec</div>
+                        <div class="workflow-arrow">⇄</div>
+                        <div class="workflow-step">🤖 Agent</div>
+                        <div class="workflow-arrow">⇄</div>
+                        <div class="workflow-step">💻 Code</div>
+                    </div>
+                    <div class="fragment">
+                        <p class="highlight-green">✓ La spec évolue avec les itérations</p>
+                        <p class="highlight-green">✓ L'agent met à jour la spec quand le comportement change</p>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Niveau 3: Spec-as-Source</h3>
+                    <div class="workflow-diagram">
+                        <div class="workflow-step highlight-box">📝 Spec (source)</div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step">🤖 Agent</div>
+                        <div class="workflow-arrow">→</div>
+                        <div class="workflow-step generated">💻 Code (généré)</div>
+                    </div>
+                    <pre class="fragment"><code class="language-javascript" data-trim>
+// GENERATED FROM SPEC - DO NOT EDIT
+// Source: specs/task-filtering.yaml
+// Generated: 2025-01-15T10:30:00Z
+
+export function filterTasks(tasks, filters) {
+  // ...
+}
+                    </code></pre>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Pourquoi ça marche?</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item fragment">
+                            <span class="benefit-icon">🧠</span>
+                            <h4>Contexte persistant</h4>
+                            <p>L'agent a toujours la vision complète</p>
+                        </div>
+                        <div class="benefit-item fragment">
+                            <span class="benefit-icon">✅</span>
+                            <h4>Critères mesurables</h4>
+                            <p>GIVEN/WHEN/THEN = tests automatiques</p>
+                        </div>
+                        <div class="benefit-item fragment">
+                            <span class="benefit-icon">🔄</span>
+                            <h4>Itérations sûres</h4>
+                            <p>Détection des régressions</p>
+                        </div>
+                        <div class="benefit-item fragment">
+                            <span class="benefit-icon">📚</span>
+                            <h4>Documentation vivante</h4>
+                            <p>Toujours synchronisée</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 4: PATTERNS D'INTÉGRATION (10 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>Patterns d'intégration</h2>
+                    <p class="section-subtitle">Structure et bonnes pratiques</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Structure d'une spec</h3>
+                    <pre><code class="language-yaml" data-trim data-line-numbers="1-4|6-9|11-20|22-28">
+# Métadonnées
+feature: task-filtering
+version: 1.0.0
+status: draft | review | approved | implemented
+
+# Contexte
+context:
+  domain: task-management
+  dependencies: [board-component, task-store]
+
+# Acceptance Criteria (Gherkin-style)
+acceptance_criteria:
+  - id: AC-01
+    priority: must-have
+    scenario: Filtrage par statut unique
+    given: |
+      L'utilisateur est sur le board
+      Le board contient des tâches de différents statuts
+    when: Il sélectionne "In Progress" dans le filtre
+    then: Seules les tâches "In Progress" sont visibles
+
+# Contraintes techniques
+constraints:
+  performance:
+    - Filtrage < 100ms pour 1000 tâches
+  accessibility:
+    - Navigation clavier complète
+    - Labels ARIA sur les filtres
+                    </code></pre>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Organisation des specs</h3>
+                    <pre><code class="language-plaintext" data-trim>
+project/
+├── specs/
+│   ├── features/
+│   │   ├── task-filtering.yaml
+│   │   ├── task-creation.yaml
+│   │   └── board-layout.yaml
+│   ├── components/
+│   │   ├── filter-dropdown.yaml
+│   │   └── search-input.yaml
+│   └── _index.yaml          # Catalogue des specs
+├── src/
+│   └── ... (code généré/implémenté)
+└── CLAUDE.md                 # Instructions agent
+                    </code></pre>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Intégration avec l'agent</h3>
+                    <pre><code class="language-markdown" data-trim>
+# CLAUDE.md
+
+## Workflow SDD
+
+1. **Avant de coder**: Lire la spec dans specs/
+2. **Pendant**: Respecter les acceptance criteria
+3. **Après**: Mettre à jour le status de la spec
+4. **Si changement de comportement**:
+   Proposer une mise à jour de la spec
+
+## Convention de nommage
+
+- Code généré: commentaire `// FROM SPEC: {spec-id}`
+- Tests: `describe('AC-01: {scenario}')`
+                    </code></pre>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Spec → Tests automatiques</h3>
+                    <pre><code class="language-typescript" data-trim data-line-numbers="1-6|8-17">
+// Généré depuis specs/task-filtering.yaml
+
+describe('Task Filtering', () => {
+
+  // AC-01: Filtrage par statut unique
+  describe('AC-01: Filtrage par statut', () => {
+
+    it('GIVEN utilisateur sur le board, WHEN filtre "In Progress", THEN seules tâches IP visibles', () => {
+      // Given
+      render(<Board tasks={mockTasks} />);
+
+      // When
+      userEvent.click(screen.getByRole('combobox', { name: /statut/i }));
+      userEvent.click(screen.getByText('In Progress'));
+
+      // Then
+      expect(screen.getAllByTestId('task-card')).toHaveLength(3);
+      expect(screen.queryByText('Todo Task')).not.toBeInTheDocument();
+    });
+  });
+});
+                    </code></pre>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Le cycle de vie d'une spec</h3>
+                    <div class="lifecycle-diagram">
+                        <div class="lifecycle-step">
+                            <span class="status-badge draft">draft</span>
+                            <p>Écriture initiale</p>
+                        </div>
+                        <div class="lifecycle-arrow">→</div>
+                        <div class="lifecycle-step">
+                            <span class="status-badge review">review</span>
+                            <p>Validation équipe</p>
+                        </div>
+                        <div class="lifecycle-arrow">→</div>
+                        <div class="lifecycle-step">
+                            <span class="status-badge approved">approved</span>
+                            <p>Prête pour impl.</p>
+                        </div>
+                        <div class="lifecycle-arrow">→</div>
+                        <div class="lifecycle-step">
+                            <span class="status-badge implemented">implemented</span>
+                            <p>Code + Tests OK</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 5: ANALYSE COMPARATIVE (10 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>Analyse comparative</h2>
+                    <p class="section-subtitle">Résultats de notre demo</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Checkpoint: Génération terminée</h3>
+                    <div class="two-columns">
+                        <div class="column">
+                            <div class="status-card status-complete">
+                                <h4>Vibe Coding</h4>
+                                <p>✅ Terminé</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="status-card status-complete">
+                                <h4>SDD</h4>
+                                <p>✅ Terminé</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fragment">Voyons les résultats...</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Critère 1: Complétude</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Fonctionnalité</th>
+                                <th>Vibe</th>
+                                <th>SDD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Filtre par statut</td>
+                                <td class="result-partial">⚠️ Partiel</td>
+                                <td class="result-ok">✅</td>
+                            </tr>
+                            <tr>
+                                <td>Filtre par priorité</td>
+                                <td class="result-ok">✅</td>
+                                <td class="result-ok">✅</td>
+                            </tr>
+                            <tr>
+                                <td>Recherche texte</td>
+                                <td class="result-ok">✅</td>
+                                <td class="result-ok">✅</td>
+                            </tr>
+                            <tr>
+                                <td>Combinaison filtres</td>
+                                <td class="result-ko">❌</td>
+                                <td class="result-ok">✅</td>
+                            </tr>
+                            <tr>
+                                <td>Reset des filtres</td>
+                                <td class="result-ko">❌</td>
+                                <td class="result-ok">✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Critère 2: Qualité du code</h3>
+                    <div class="two-columns">
+                        <div class="column">
+                            <h4 class="highlight-red">Vibe Coding</h4>
+                            <pre><code class="language-javascript" data-trim>
+// Tout dans un composant
+function Board() {
+  const [filter, setFilter] = useState('');
+  const [status, setStatus] = useState('');
+  // 200 lignes de logique mixée...
+
+  const filtered = tasks.filter(t => {
+    if (filter && status) {
+      // Bug: OR au lieu de AND
+      return t.title.includes(filter)
+          || t.status === status;
+    }
+    // ...
+  });
+}
+                            </code></pre>
+                        </div>
+                        <div class="column">
+                            <h4 class="highlight-green">SDD</h4>
+                            <pre><code class="language-javascript" data-trim>
+// FROM SPEC: task-filtering
+// Logique séparée, testable
+
+export function applyFilters(
+  tasks: Task[],
+  filters: FilterState
+): Task[] {
+  return tasks.filter(task =>
+    matchesStatus(task, filters.status) &&
+    matchesPriority(task, filters.priority) &&
+    matchesSearch(task, filters.search)
+  );
+}
+                            </code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Critère 3: Maintenabilité</h3>
+                    <div class="metrics-comparison">
+                        <div class="metric-card">
+                            <h4>Vibe Coding</h4>
+                            <div class="metric-row">
+                                <span>Tests</span>
+                                <span class="metric-value bad">0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Documentation</span>
+                                <span class="metric-value bad">Aucune</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Fichiers modifiés</span>
+                                <span class="metric-value">1</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Lignes ajoutées</span>
+                                <span class="metric-value bad">+187</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>SDD</h4>
+                            <div class="metric-row">
+                                <span>Tests</span>
+                                <span class="metric-value good">12</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Documentation</span>
+                                <span class="metric-value good">Spec</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Fichiers modifiés</span>
+                                <span class="metric-value">4</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Lignes ajoutées</span>
+                                <span class="metric-value good">+94</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Critère 4: Itération suivante</h3>
+                    <p>Demande: "Ajoute un filtre par date de création"</p>
+                    <div class="two-columns fragment">
+                        <div class="column">
+                            <h4 class="highlight-red">Vibe Coding</h4>
+                            <ul class="negative-list">
+                                <li>Casse le filtre existant</li>
+                                <li>3 tentatives pour corriger</li>
+                                <li>Régression sur la recherche</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h4 class="highlight-green">SDD</h4>
+                            <ul class="positive-list">
+                                <li>Ajoute AC-05 dans la spec</li>
+                                <li>Génère le code + test</li>
+                                <li>Tests existants passent</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Synthèse</h3>
+                    <div class="summary-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Vibe Coding</th>
+                                    <th>SDD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Vitesse initiale</td>
+                                    <td class="win">🏆 Rapide</td>
+                                    <td>Plus lent</td>
+                                </tr>
+                                <tr>
+                                    <td>Qualité</td>
+                                    <td>Variable</td>
+                                    <td class="win">🏆 Consistante</td>
+                                </tr>
+                                <tr>
+                                    <td>Itérations</td>
+                                    <td>Dégradation</td>
+                                    <td class="win">🏆 Stable</td>
+                                </tr>
+                                <tr>
+                                    <td>Maintenance</td>
+                                    <td>Difficile</td>
+                                    <td class="win">🏆 Facile</td>
+                                </tr>
+                                <tr>
+                                    <td>Courbe effort</td>
+                                    <td>📈 Exponentielle</td>
+                                    <td class="win">🏆 Linéaire</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PARTIE 6: OUVERTURE ET Q&A (5 min) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h2>Et maintenant?</h2>
+                    <p class="section-subtitle">L'avenir du développement</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Le spectre du développeur</h3>
+                    <div class="spectrum-diagram">
+                        <div class="spectrum-left">
+                            <span class="spectrum-label">100% Code</span>
+                            <p>Développeur "classique"</p>
+                        </div>
+                        <div class="spectrum-bar">
+                            <div class="spectrum-marker" style="left: 70%"></div>
+                        </div>
+                        <div class="spectrum-right">
+                            <span class="spectrum-label">100% Spec</span>
+                            <p>Spec Engineer?</p>
+                        </div>
+                    </div>
+                    <p class="fragment">Où vous positionnez-vous dans 2 ans?</p>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Les compétences qui changent</h3>
+                    <div class="skills-evolution">
+                        <div class="skills-column">
+                            <h4>⬇️ Moins critique</h4>
+                            <ul>
+                                <li>Syntaxe par coeur</li>
+                                <li>Patterns d'implémentation</li>
+                                <li>Debugging ligne par ligne</li>
+                            </ul>
+                        </div>
+                        <div class="skills-column">
+                            <h4>⬆️ Plus critique</h4>
+                            <ul>
+                                <li>Spécification précise</li>
+                                <li>Architecture système</li>
+                                <li>Revue et validation</li>
+                                <li>Pensée comportementale</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Pour commencer demain</h3>
+                    <div class="action-list">
+                        <div class="action-item fragment">
+                            <span class="action-number">1</span>
+                            <div>
+                                <h4>Créez un dossier <code>specs/</code></h4>
+                                <p>Dans votre prochain projet</p>
+                            </div>
+                        </div>
+                        <div class="action-item fragment">
+                            <span class="action-number">2</span>
+                            <div>
+                                <h4>Écrivez UNE spec avant de coder</h4>
+                                <p>Avec 3 acceptance criteria</p>
+                            </div>
+                        </div>
+                        <div class="action-item fragment">
+                            <span class="action-number">3</span>
+                            <div>
+                                <h4>Donnez la spec à votre agent</h4>
+                                <p>Observez la différence</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h2 class="title-gradient">Questions?</h2>
+                    <div class="contact-info">
+                        <p>🔗 Slides: <code>github.com/...</code></p>
+                        <p>📱 Demo: <a href="https://ai-board-three.vercel.app/">ai-board-three.vercel.app</a></p>
+                    </div>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h2>Merci!</h2>
+                    <p class="closing-message">
+                        <span class="highlight-mauve">Arrêter de coder</span> ≠ Arrêter de créer
+                    </p>
+                    <p class="fragment">C'est créer <em>mieux</em>, <em>plus vite</em>, <em>plus sûrement</em>.</p>
+                </section>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'speaker',
+            transition: 'slide',
+            backgroundTransition: 'fade',
+            plugins: [RevealNotes, RevealHighlight, RevealMarkdown],
+
+            // Aspect ratio
+            width: 1920,
+            height: 1080,
+
+            // Slide settings
+            center: true,
+
+            // Speaker notes
+            showNotes: false
+        });
+    </script>
+</body>
+</html>
