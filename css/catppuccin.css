@@ -699,6 +699,168 @@
 }
 
 /* ============================================
+   RALPH SLIDES
+   ============================================ */
+
+.ralph-concept {
+    margin: 1em 0;
+}
+
+.ralph-hero {
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+.ralph-img {
+    width: 320px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ralph-description {
+    text-align: center;
+    margin: 1em 0;
+}
+
+.ralph-tagline {
+    font-size: 1.1em;
+    color: var(--ctp-subtext1);
+    font-style: italic;
+    margin-bottom: 0.5em;
+}
+
+.ralph-description pre {
+    display: inline-block;
+    margin: 0 auto;
+    font-size: 0.6em;
+}
+
+.ralph-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3em;
+    margin-top: 1.5em;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3em;
+}
+
+.stat-item .stat-value {
+    font-size: 2em;
+    font-weight: 700;
+}
+
+.stat-item .stat-label {
+    font-size: 0.8em;
+    color: var(--ctp-subtext0);
+}
+
+.small-quote {
+    font-size: 0.85em;
+    padding: 0.8em 1.2em;
+}
+
+.small-quote code {
+    font-size: 0.95em;
+    background: var(--ctp-mantle);
+}
+
+/* Vertical workflow diagram */
+.workflow-diagram.vertical {
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.workflow-diagram.vertical .workflow-step {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.6em 1.5em;
+    min-width: 350px;
+    justify-content: flex-start;
+}
+
+.workflow-diagram.vertical .workflow-arrow {
+    font-size: 1.2em;
+}
+
+.workflow-arrow.vertical {
+    transform: none;
+}
+
+.workflow-step .step-icon {
+    font-size: 1.3em;
+    width: 40px;
+    text-align: center;
+}
+
+.workflow-step .step-label {
+    font-size: 0.7em;
+    color: var(--ctp-overlay1);
+    margin-left: auto;
+    padding-left: 1em;
+}
+
+.human-step {
+    border-color: var(--ctp-sapphire);
+}
+
+.ralph-step {
+    border-color: var(--ctp-yellow);
+    background: linear-gradient(135deg, var(--ctp-surface0), rgba(249, 226, 175, 0.1));
+    animation: subtle-pulse 3s infinite;
+}
+
+@keyframes subtle-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(249, 226, 175, 0); }
+    50% { box-shadow: 0 0 15px 2px rgba(249, 226, 175, 0.2); }
+}
+
+.ralph-step.highlight-box {
+    border-width: 3px;
+}
+
+/* Ralph fit items */
+.ralph-fit {
+    max-width: 700px;
+    margin: 1.5em auto;
+}
+
+.fit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+    margin-bottom: 1.2em;
+    text-align: left;
+    background: var(--ctp-surface0);
+    padding: 1em 1.5em;
+    border-radius: 12px;
+    border-left: 4px solid var(--ctp-mauve);
+}
+
+.fit-icon {
+    font-size: 1.8em;
+    flex-shrink: 0;
+}
+
+.fit-item h4 {
+    margin: 0 0 0.2em 0;
+    color: var(--ctp-text);
+    font-size: 1em;
+}
+
+.fit-item p {
+    margin: 0;
+    font-size: 0.85em;
+    color: var(--ctp-subtext0);
+}
+
+/* ============================================
    RESPONSIVE ADJUSTMENTS
    ============================================ */
 

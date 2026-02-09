@@ -472,6 +472,70 @@ describe('Task Filtering', () => {
             </section>
 
             <!-- ============================================ -->
+            <!-- PARTIE 4B: RALPH (transition vers résultats) -->
+            <!-- ============================================ -->
+            <section>
+                <section data-background-color="#1e1e2e">
+                    <h3>Ralph : l'agent autonome en boucle</h3>
+                    <div class="ralph-hero">
+                        <img src="img/ralph-wiggum-im-in-danger-meme.avif" alt="Ralph Wiggum - I'm in danger" class="ralph-img" />
+                    </div>
+                    <div class="ralph-description">
+                        <p class="ralph-tagline">"Ralph is a Bash loop"</p>
+                        <pre><code class="language-bash">while :; do claude PROMPT.md; done</code></pre>
+                    </div>
+                    <div class="ralph-stats fragment">
+                        <div class="stat-item">
+                            <span class="stat-value">🔄</span>
+                            <span class="stat-label">Itère jusqu'à complétion</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value highlight-green">$297</span>
+                            <span class="stat-label">au lieu de $50k</span>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        Ralph Wiggum = plugin officiel Claude Code.
+                        Technique puissante pour du greenfield.
+                        La question: comment définir "complétion"?
+                    </aside>
+                </section>
+
+                <section data-background-color="#1e1e2e">
+                    <h3>Pourquoi SDD + Ralph = match parfait</h3>
+                    <div class="ralph-fit">
+                        <div class="fit-item fragment">
+                            <span class="fit-icon">🎯</span>
+                            <div>
+                                <h4>Acceptance Criteria = Completion Promise</h4>
+                                <p>L'agent sait <em>exactement</em> quand s'arrêter</p>
+                            </div>
+                        </div>
+                        <div class="fit-item fragment">
+                            <span class="fit-icon">🧠</span>
+                            <div>
+                                <h4>Spec = Mémoire persistante</h4>
+                                <p>Le contexte survit entre chaque itération</p>
+                            </div>
+                        </div>
+                        <div class="fit-item fragment">
+                            <span class="fit-icon">📋</span>
+                            <div>
+                                <h4>Tâches trackées = Progression visible</h4>
+                                <p>Ce qui est fait vs ce qui reste à faire</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fragment highlight-green" style="margin-top: 1em;">SDD fournit naturellement tout ce dont Ralph a besoin</p>
+                    <aside class="notes">
+                        Pas besoin d'inventer une "completion promise" - les AC le sont déjà.
+                        La spec est le PROMPT.md idéal.
+                        Transition: voyons comment ça s'est passé pour notre demo...
+                    </aside>
+                </section>
+            </section>
+
+            <!-- ============================================ -->
             <!-- PARTIE 5: ANALYSE COMPARATIVE (10 min) -->
             <!-- ============================================ -->
             <section>
