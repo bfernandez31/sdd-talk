@@ -274,7 +274,7 @@
             >
             ?
           </h1>
-          <p class="subtitle">REX : Travailler avec l'IA pour coder en 2026</p>
+          <p class="subtitle">REX mars 2026</p>
           <div class="author-info">
             <p>Benoît Fernandez &mdash; Tech Lead Front/Back</p>
           </div>
@@ -295,13 +295,7 @@
         <!-- ============================================ -->
         <section>
           <section data-background-color="#1e1e2e">
-            <h2>Mon parcours avec l'IA</h2>
-            <p class="section-subtitle">
-              Chaque étape = un pain point qui mène à la suivante
-            </p>
-          </section>
-
-          <section data-background-color="#1e1e2e">
+            <h2>Le point de départ</h2>
             <div class="timeline">
               <div class="timeline-item fragment">
                 <span class="timeline-date">Fin 2023</span>
@@ -357,23 +351,19 @@
             >
               <h4 style="color: var(--ctp-mauve)">Un agent dans le terminal</h4>
               <ul>
-                <li>
+                <li class="fragment">
                   Utilise toutes les CLIs : GitHub CLI, npm, rg, kubectl ...
                 </li>
-                <li>
+                <li class="fragment">Édition automatique des fichiers</li>
+                <li class="fragment">
                   <code>CLAUDE.md</code> : contexte partagé avec les règles
                 </li>
-                <li>
+                <li class="fragment">
                   <strong>Commands</strong> : répéter les prompts facilement
                 </li>
-                <li>Édition automatique des fichiers</li>
-                <li><strong>Hooks</strong>(juin) : déterministe</li>
+                <li class="fragment"><strong>Hooks</strong>(juin) : déterministe</li>
               </ul>
             </div>
-            <p class="fragment" style="font-size: 0.9em">
-              Une commande =
-              <span class="highlight-green">beaucoup de code</span> produit
-            </p>
             <aside class="notes">
               "J'ai commencé à pousser toutes les mécaniques : le CLAUDE.md pour
               le contexte partagé, les commands pour répéter les prompts
@@ -386,29 +376,34 @@
           </section>
 
           <section data-background-color="#1e1e2e">
-            <h3>Le vrai shift</h3>
-            <div class="shift-box">
-              <p><span class="old">Prompt Engineering</span></p>
-              <p class="fragment">
-                <span class="new">Context Engineering</span>
-              </p>
-            </div>
-            <div class="fragment" style="margin-top: 1.5em">
-              <p style="font-size: 0.85em">
-                Comment structurer le contexte pour que l'IA fasse du bon
-                travail ?
-              </p>
-            </div>
+            <h3>Le hic</h3>
+            <p class="fragment" style="margin-top: 1.2em; font-size: 0.95em;">
+              Plus on donne de <strong>contexte</strong>, meilleur est le résultat
+            </p>
+            <p class="fragment" style="margin-top: 0.8em; font-size: 0.95em;">
+              Mais chaque action =
+              <span class="highlight-yellow">beaucoup de tokens</span>
+            </p>
+            <p class="fragment" style="margin-top: 0.8em; font-size: 1.1em;">
+              Fenêtre de contexte :
+              <span class="highlight-red">200K tokens</span>
+            </p>
+            <p class="fragment" style="margin-top: 1.2em; font-size: 1.1em;">
+              <code>/compact</code> =
+              <span class="highlight-red">session morte</span>
+            </p>
             <aside class="notes">
-              "On n'est pas du tout au prompt engineering. Je pense que le mode
-              est totalement passé. On est directement sur le context
-              engineering, comment améliorer le contexte." "Le prompt doit être
-              le minimum variable possible. En réalité, qu'il y ait très peu de
-              variantes. Quelques milliers de tokens de prompt, c'est pas
-              grave." Le but : mettre un maximum de choses stables dans le
-              contexte pour maximiser le cache.
+              Sonnet 3.7 (fév 2025) : 200K tokens. Ça part très vite :
+              system prompt, CLAUDE.md, outils, chaque fichier lu/édité
+              consomme du contexte. Au début, pas du tout optimisé, ni côté
+              cache ni côté utilisation. Il y a eu des réductions de plus de
+              30% sur la conso de tokens lors de certaines grosses mises à
+              jour de modèle. Quand on atteint la limite, /compact compresse
+              tout et on perd le fil — session morte. Depuis Opus 4.6
+              (fév 2026) on est à 1M par défaut.
             </aside>
           </section>
+
         </section>
 
         <!-- ============================================ -->
@@ -416,77 +411,29 @@
         <!-- ============================================ -->
         <section>
           <section data-background-color="#1e1e2e">
-            <h2>Les solutions qui marchent</h2>
-            <p class="section-subtitle">
-              Ce que j'ai mis en place pour résoudre ces problèmes
-            </p>
-          </section>
-
-          <!-- 3a. Découper en sessions -->
-          <section data-background-color="#1e1e2e">
-            <h3>Découper en sessions</h3>
-            <div
-              class="solution-card"
-              style="max-width: 700px; margin: 1em auto"
-            >
-              <h4>Ne jamais chaîner dans le même prompt</h4>
-              <ul>
-                <li>
-                  Hooks Claude Code : sauvegarde des fichiers, prompts, résumé
-                </li>
-                <li>
-                  Nouvelle session = contexte propre + artefacts précédents
-                </li>
-                <li>
-                  Le prompt varie peu, le contexte stable est en
-                  <strong>cache</strong>
-                </li>
-              </ul>
-            </div>
-            <p
-              class="fragment"
-              style="font-size: 0.85em; color: var(--ctp-subtext0)"
-            >
-              Cache KV : vos inputs stables sont ~4-5x moins chers
-            </p>
+            <h2>La parade</h2>
+            <ul style="list-style: none; max-width: 700px; margin: 1em auto; font-size: 0.95em;">
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <span class="highlight-mauve">1.</span>
+                <strong>Découper le travail</strong> en sessions courtes
+              </li>
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <span class="highlight-mauve">2.</span>
+                <strong>Produire un artefact</strong> à chaque étape
+              </li>
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <span class="highlight-mauve">3.</span>
+                <strong>Nouvelle session</strong> = contexte propre + artefacts précédents
+              </li>
+            </ul>
             <aside class="notes">
-              "Les hooks pouvaient être lancés quand la conversation était finie
-              ou quand un tool était fini." "Généralement on les utilisait pour
-              faire des notifications, avoir une alerte quand c'est fini."
-              "J'avais un script qui sauvegardait les fichiers référencés, les
-              prompts envoyés, le résumé du travail. Ça s'écrivait en permanence
-              dans un fichier, et quand je relançais une session, je repartais
-              de ce fichier que je pouvais nettoyer." "On pouvait référencer un
-              document pour éviter de le charger dans le contexte." Il y a un
-              lien vers la personne qui avait mis ça en place de manière encore
-              plus poussée.
-            </aside>
-          </section>
-
-          <section data-background-color="#1e1e2e">
-            <h3>Structurer le besoin</h3>
-            <div class="pain-point">
-              <span class="icon">!</span> Besoin pas formalisé, pas uniformisé =
-              l'IA a trop de liberté
-            </div>
-            <div class="fragment" style="margin-top: 1.5em">
-              <p class="big-text">
-                La solution : des <span class="highlight-green">artefacts</span>
-              </p>
-              <p style="font-size: 0.85em; color: var(--ctp-subtext0)">
-                Chaque étape produit un artefact qui sert de base à la suivante
-              </p>
-            </div>
-            <aside class="notes">
-              "Le but c'est de faire le maximum de requirements. C'est le cœur
-              pour avoir un bon résultat, c'est de limiter les possibilités de
-              l'IA. Et c'est l'avantage du SDD." "Il faut découper le plus petit
-              possible. Ça marche comme le développement. Plus c'est petit, plus
-              c'est facile à développer, tester, déployer. Itérer plus vite sur
-              les erreurs, avoir le feedback utilisateur le plus vite possible."
-              La phase de clarification dans SpecKit : questions posées pour le
-              besoin. L'IA est autonome sur les décisions techniques, l'humain
-              décide sur le fonctionnel/métier.
+              Les fichiers générés (plans, résumés, specs) vivent sur le disque.
+              Ils permettent de repartir avec un contexte neuf sans perdre
+              l'historique. Le prompt varie peu, le contexte stable profite du
+              cache KV (~4-5x moins cher). Les hooks Claude Code automatisent
+              la sauvegarde. On découpe le plus petit possible : plus c'est
+              petit, plus c'est facile à développer, tester, déployer. Et ces
+              fichiers structurés... c'est exactement ce que le SDD formalise.
             </aside>
           </section>
 
@@ -495,6 +442,41 @@
               C'est le
               <span class="highlight-mauve">Spec-Driven Development</span>
             </h3>
+            <div class="workflow-pipeline fragment" style="margin-top: 1.2em;">
+              <div class="pipeline-step highlight">Spec</div>
+              <span class="pipeline-arrow">→</span>
+              <div class="pipeline-step highlight">Plan</div>
+              <span class="pipeline-arrow">→</span>
+              <div class="pipeline-step">Tasks</div>
+              <span class="pipeline-arrow">→</span>
+              <div class="pipeline-step highlight">Implement</div>
+            </div>
+            <p class="fragment" style="font-size: 0.85em; margin-top: 1em;">
+              Chaque étape =
+              <span class="highlight-green">un artefact</span> qui sert de point
+              de départ pour la suivante
+            </p>
+            <p class="fragment" style="font-size: 0.85em">
+              Chaque étape dans une
+              <span class="highlight-mauve">session séparée</span> (contexte
+              propre)
+            </p>
+            <aside class="notes">
+              C'est le workflow de base du SDD, tel que proposé par SpecKit.
+              "Surtout, ne faites pas l'erreur de lancer à la chaîne dans le
+              même prompt. Ça ne sert à rien. Lancez dans une nouvelle session.
+              Ça repart avec un contexte clair." "Le plan : c'est lui qui doit
+              vraiment avoir toute l'intelligence parce que c'est lui qui
+              analyse le code et qui dit 'Ok, là, tu dois avoir cette
+              construction. Tu dois changer ce fichier.' Si vous avez des
+              limitations de coût, c'est ici que vous devez mettre votre modèle
+              le plus performant." Mon workflow perso ajoute des étapes
+              (simplify, review, doc) — on verra ça en démo devant l'app.
+            </aside>
+          </section>
+
+          <section data-background-color="#1e1e2e">
+            <h3>Les niveaux du SDD</h3>
             <div class="levels-container">
               <div class="level-card fragment">
                 <div class="level-header level-1">
@@ -541,41 +523,6 @@
               tâches de Claude Code, maintenant sur MCP. Ref: Birgitta Bockeler
               (Thoughtworks) —
               martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
-            </aside>
-          </section>
-
-          <section data-background-color="#1e1e2e">
-            <h3>Le workflow SDD standard</h3>
-            <div class="workflow-pipeline">
-              <div class="pipeline-step highlight">Spec</div>
-              <span class="pipeline-arrow">→</span>
-              <div class="pipeline-step highlight">Plan</div>
-              <span class="pipeline-arrow">→</span>
-              <div class="pipeline-step">Tasks</div>
-              <span class="pipeline-arrow">→</span>
-              <div class="pipeline-step highlight">Implement</div>
-            </div>
-            <p class="fragment" style="font-size: 0.85em">
-              Chaque étape =
-              <span class="highlight-green">un artefact</span> qui sert de point
-              de départ pour la suivante
-            </p>
-            <p class="fragment" style="font-size: 0.85em">
-              Chaque étape dans une
-              <span class="highlight-mauve">session séparée</span> (contexte
-              propre)
-            </p>
-            <aside class="notes">
-              C'est le workflow de base du SDD, tel que proposé par SpecKit.
-              "Surtout, ne faites pas l'erreur de lancer à la chaîne dans le
-              même prompt. Ça ne sert à rien. Lancez dans une nouvelle session.
-              Ça repart avec un contexte clair." "Le plan : c'est lui qui doit
-              vraiment avoir toute l'intelligence parce que c'est lui qui
-              analyse le code et qui dit 'Ok, là, tu dois avoir cette
-              construction. Tu dois changer ce fichier.' Si vous avez des
-              limitations de coût, c'est ici que vous devez mettre votre modèle
-              le plus performant." Mon workflow perso ajoute des étapes
-              (simplify, review, doc) — on verra ça en démo devant l'app.
             </aside>
           </section>
 
@@ -678,66 +625,15 @@
         </section>
 
         <!-- ============================================ -->
-        <!-- 4. DÉMO : SDD vs QUICK (8 min) -->
+        <!-- 4. DÉMO (8 min) -->
         <!-- ============================================ -->
         <section>
           <section data-background-color="#1e1e2e">
-            <h2>Démo : SDD vs Quick</h2>
-            <p class="section-subtitle">
-              Vrais résultats sur
-              <a href="https://ai-board-three.vercel.app/" target="_blank"
-                >ai-board</a
-              >
-            </p>
-          </section>
-
-          <section data-background-color="#1e1e2e">
-            <h3>Le setup</h3>
-            <p style="font-size: 0.9em">6 tickets identiques, même feature</p>
-            <div class="compare-setup">
-              <div class="compare-card quick">
-                <h4 class="highlight-yellow">Quick (sans SDD)</h4>
-                <ul>
-                  <li>Plan Claude Code natif</li>
-                  <li>Constitution + rules</li>
-                  <li>Retry + Code Simplifier</li>
-                  <li>Pas de specs formalisées</li>
-                </ul>
-              </div>
-              <div class="compare-card sdd">
-                <h4 class="highlight-green">SDD</h4>
-                <ul>
-                  <li>Specs formalisées (SpecKit fork)</li>
-                  <li>Plan + Tâches + Implémentation</li>
-                  <li>Retry + Code Simplifier</li>
-                  <li>Artefacts à chaque étape</li>
-                </ul>
-              </div>
-            </div>
-            <aside class="notes">
-              "Le Quick, ce n'est pas un prompt qu'on envoie comme ça. Il y a
-              toujours le contexte, la constitution. J'ai les rules, le retry,
-              le code simplifier. On est dans un monde où c'est pas du SDD, mais
-              il y a la planification, les tâches de Claude Code. Donc on est
-              dans quelque chose de quite similar. Mais pas du tout pareil."
-              "J'ai aussi testé Codex. Il y a eu des moments où Codex a gagné.
-              Surprenant."
-            </aside>
-          </section>
-
-          <section data-background-color="#1e1e2e">
             <h3>Démo live</h3>
             <p style="font-size: 1.2em">
-              Allons voir sur <span class="highlight-mauve">GitHub</span>...
-            </p>
-            <p
-              style="
-                font-size: 0.8em;
-                color: var(--ctp-subtext0);
-                margin-top: 2em;
-              "
-            >
-              Branches, reviews, diffs, ticket côte à côte
+              Allons voir sur
+              <a href="https://ai-board-three.vercel.app/" target="_blank"
+                class="highlight-mauve">ai-board</a>
             </p>
             <aside class="notes">
               Montrer un ticket concret. Les reviews. Les erreurs identifiées
@@ -752,48 +648,26 @@
         <section>
           <section data-background-color="#1e1e2e">
             <h2>Recommandations</h2>
-            <p class="section-subtitle">
-              Ce que je retiens après des centaines de tickets
+            <ul style="list-style: none; max-width: 700px; margin: 1em auto; font-size: 0.9em;">
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <strong>Adaptez-vous</strong> à votre modèle / outil
+              </li>
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <span class="highlight-mauve">On the loop</span> :
+                améliorez le <strong>harnais</strong>, pas le code
+              </li>
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <strong>Découpez</strong> le travail — petites sessions, un artefact par étape
+              </li>
+              <li class="fragment" style="margin-bottom: 0.8em;">
+                <strong>Testez le SDD</strong> — même informel, structurer le besoin change tout
+              </li>
+            </ul>
+            <p class="fragment" style="margin-top: 1.2em; font-size: 1.15em;">
+              Suivre la <span class="highlight-green">formation Claude Code</span> 😏
             </p>
           </section>
 
-          <section data-background-color="#1e1e2e">
-            <h3>Choix de l'outil : un seul critère</h3>
-            <p class="big-text fragment">
-              Le <span class="highlight-green">respect des règles</span>
-            </p>
-            <div class="tool-grid fragment">
-              <div class="tool-card preferred">
-                <h4 class="highlight-green">Claude Code + Claude</h4>
-                <p>Combo préféré. Centaines de tickets, jamais de problème.</p>
-              </div>
-              <div class="tool-card testing">
-                <h4 class="highlight-yellow">Codex (OpenAI)</h4>
-                <p>En test. Quelques écarts sur les règles.</p>
-              </div>
-              <div class="tool-card preferred">
-                <h4 class="highlight-green">OpenCode + Claude</h4>
-                <p>Bien, mais arrêté (risque de ban).</p>
-              </div>
-              <div class="tool-card eliminated">
-                <h4 class="highlight-red">Gemini</h4>
-                <p>Bon modèle pour autre chose. Pour le code : non.</p>
-              </div>
-            </div>
-            <aside class="notes">
-              "Le principal c'est le respect des règles. Un outil sur lequel je
-              ne peux pas faire confiance, je ne pourrais pas l'utiliser."
-              "Gemini, je n'utilise pas pour faire du code. Leur modèle est
-              excellent pour plein de raisons. Mais pour le code, je trouve nul.
-              Leur outil aussi. Gemini, je l'ai éliminé beaucoup plus vite."
-              "Codex, je ne suis encore qu'au début. Il me fait quelques erreurs
-              de règles. Je ne sais pas encore si c'est vraiment des limitations
-              ou si c'est mes prompts trop adaptés pour Claude." "OpenCode avec
-              Claude me plaisait très bien. Maintenant je n'utilise plus pour
-              éviter de me faire ban." "On verra demain ce qu'il y aura comme
-              autre outil."
-            </aside>
-          </section>
         </section>
 
         <!-- ============================================ -->
@@ -834,55 +708,7 @@
             </aside>
           </section>
 
-          <section data-background-color="#1e1e2e">
-            <h3>L'avertissement</h3>
-            <div class="warning-box">
-              <p>
-                Si vous n'aimez pas relire, vous
-                <strong>perdrez le contrôle</strong>.
-              </p>
-              <p class="fragment">
-                PR acceptées sans relecture =
-                <span class="highlight-red">danger</span>
-              </p>
-              <p class="fragment">
-                Erreur en prod = <strong>votre</strong> responsabilité, pas
-                celle de l'IA.
-              </p>
-            </div>
-            <aside class="notes">
-              "Si ça ne vous plaît pas, je peux garantir que vous finirez par ne
-              plus relire correctement. Et au bout d'un moment, vous aurez
-              tellement accepté de PR du code sans relecture, que vous ne
-              maîtriserez plus rien." "Et puis s'il y a une erreur, ça sera de
-              votre faute en prod. Je ne pense pas que la responsabilité sera
-              l'IA avant un moment." "Chacun garde à sa porte et fait un peu
-              comme il veut."
-            </aside>
-          </section>
 
-          <section data-background-color="#1e1e2e">
-            <h3>Rappel : <span class="highlight-mauve">On the loop</span></h3>
-            <p style="font-size: 0.95em">
-              On n'améliore pas le code.<br />On améliore le
-              <strong>harnais</strong> qui produit le code.
-            </p>
-            <div class="fragment" style="margin-top: 1.5em">
-              <p style="font-size: 0.9em">
-                Rules, specs, workflow, constitution, simplify...
-              </p>
-              <p style="font-size: 0.85em; color: var(--ctp-subtext0)">
-                C'est ce qu'on a vu en démo. Et ça se voit dans les résultats.
-              </p>
-            </div>
-            <aside class="notes">
-              Callback rapide au concept présenté avant la démo. Ici c'est le
-              moment de faire la synthèse : tout ce qu'on a vu — sessions,
-              rules, SDD, le workflow — c'est du harness engineering. C'est
-              comme ça qu'on reste "on the loop" sans être le goulot
-              d'étranglement.
-            </aside>
-          </section>
 
           <section data-background-color="#1e1e2e">
             <h2>Merci !</h2>
@@ -955,6 +781,17 @@
 
           <section data-background-color="#1e1e2e">
             <h2 class="title-gradient">Questions ?</h2>
+            <div style="margin-top: 1.5em; display: flex; flex-direction: column; align-items: center; gap: 0.8em;">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://github.com/bfernandez31/ai-board&bgcolor=1e1e2e&color=cdd6f4&format=svg"
+                alt="QR code vers le repo ai-board"
+                style="border-radius: 12px; padding: 16px; background: #313244;"
+              />
+              <a href="https://github.com/bfernandez31/ai-board"
+                 style="font-family: monospace; font-size: 0.55em; color: #89b4fa; text-decoration: none;">
+                github.com/bfernandez31/ai-board
+              </a>
+            </div>
           </section>
         </section>
       </div>
